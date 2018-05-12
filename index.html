@@ -49,7 +49,10 @@
 <script>
 	 $('#check').click(function(){
 	 	let a = $('#String1').val();
+	 	a= a.trim();
 	 	let b = $('#String2').val();
+	 	b = b.trim();
+	 	// console.log(a.length);
 	 	var arr = new Array();
 	 	$('#time').text('');
 	 	if(a.length ==0 ||b.length ==0){
