@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Thuật toán Rabin-Karp</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+	<div class="col-lg-12 mt-5">
+		<div class="alert alert-primary" role="alert">
+	  		Xin chào ! Bạn muốn tìm vị trí của một chuỗi trong một chuỗi lớn hơn .... ! Hãy thử phía dưới ^^ !!
+		</div>
+		<div class="alert alert-danger" role="alert">
+	  		Chú ý : <span class="badge badge-secondary">String 1</span> là chuỗi mà bạn muốn tìm vị trí . <span class="badge badge-secondary">String 2</span> là chuỗi lớn hơn..
+		</div>
+								
+		<form>
+		  <div class="form-row">
+		    <div class="col-lg-5">
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">String 1</div>
+		        </div>
+		        <input type="text" class="form-control" id="String1" placeholder="String 1">
+		      </div>
+		    </div>
+		    <div class="col-lg-5">
+		       <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">String 2</div>
+		        </div>
+		        <input type="text" class="form-control" id="String2" placeholder="String 2">
+		      </div>
+		    </div>
+		    <div class="col-lg-2">
+		      <button type="button" class="btn btn-outline-danger col-12" id="check">Check</button>
+		    </div>
+		  </div>
+		</form>
+	</div>
+	<div class="result">
+		<div class="alert alert-primary" role="alert">
+	  		<p>	Kết quả : <span id="results"></span></p>
+	  		<span id="time"></span>
+		</div>
+	</div>
+<script src="js/jquery-3.3.1.js"></script>
+<script>
+	 $('#check').click(function(){
+	 	let a = $('#String1').val();
+	 	let b = $('#String2').val();
+	 	var arr = new Array();
+	 	$('#time').text('');
+	 	if(a.length ==0 ||b.length ==0){
+	 	$('#results').text('Bạn nhập thiếu, mời nhập tiếp ');
+	 	}else{
+			 // var t0 = performance.now();
+			 arr= SearchString(a,b);
+			 // var t1 = performance.now();
+			// // console.log(arr.length);
+			// // console.log(timeout);
+			if(arr===false){
+				$('#results').text('Bạn đã nhập sai vị trí 2 chuỗi');
+			}else
+			 if(arr.length !=0){
+			 	 $('#results').text('Vi tri can tim la : ');
+			 	for(let i =0; i<arr.length;i++){
+					if($('#results').val().length==0){
+			 			$('#results').append(arr[i]+' ');
+			 		}else{
+			 			$('#results').append(arr[i]);
+			 		}
+					
+			 	}
+	 		}else{
+	 			$('#results').text('Chuỗi : '+ a + ' không nằm trong : '+ b);
+	 		}
+	 		// $('#time').text('Thời gian thực hiện : '+ (t1-t0)+ ' milliseconds');
+
+	 	}
+	 });
+	function SearchString(StringA,StringB){
+    var Alen = StringA.length;
+    var Blen = StringB.length;
+    var p =0;// luu gia tri bam cua String B
+    var t=0;//luu gia tri bam cua String A
+    var q = 100007;// so nguyen to bat ky du lon
+    var d= 256;// so ky tu dau vao ma ASCII : 256 kytu
+    var kq = new Array();
+    if(Alen>Blen){
+    	return false;
+    }
+        var pow = 1;
+    // pow la gi tri cua pow(d, M-1)%q
+    for(let k =1; k<= Alen-1;k++){
+    	pow = (pow *d)%q;
+    }
+    // tinh gia tri bam cua 2 chuoi
+    for(let i=0 ; i <Alen;i++){
+    	p = (p *d  + StringB.charCodeAt(i))%q;
+    	t = (t *d  + StringA.charCodeAt(i))%q;
+    }
+    // tinh gia tri bam cua tung doan.
+    for(let j=0;j<=Blen-Alen;j++){
+    	p = (p + q - pow * StringB.charCodeAt(j-1) %q ) %q;
+    	p = (p * d + StringB.charCodeAt(j+Alen -1)) % q;
+    	// ktra gia tri bam co bang nhau hay khong
+    	if(p==t){
+    		//kiem tra ky tu
+    		if(StringB.substr(j,Alen)==StringA){
+    			// console.log(j);
+    			kq.push(j);
+    		}
+    	}
+    }
+    return kq;
+	}
+</script>
+</body>
+</html>
