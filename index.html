@@ -101,8 +101,12 @@
     	p = (p *d  + StringB.charCodeAt(i))%q;
     	t = (t *d  + StringA.charCodeAt(i))%q;
     }
+    	if (p == t)
+	{
+ 		kq.push(0);
+ 	}
     // tinh gia tri bam cua tung doan.
-    for(let j=0;j<=Blen-Alen;j++){
+    for(let j=1;j<=Blen-Alen;j++){
     	p = (p + q - pow * StringB.charCodeAt(j-1) %q ) %q;
     	p = (p * d + StringB.charCodeAt(j+Alen -1)) % q;
     	// ktra gia tri bam co bang nhau hay khong
